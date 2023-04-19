@@ -10,11 +10,17 @@ import {
   SubmitBtn,
 } from 'components/ContactForm/ContactForm.styled';
 
-export const ContactForm = ({ onSubmitFormData }) => {
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contacts/actions';
+
+export const ContactForm = () => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  // Отримуємо посилання на функцію відправки екшенів
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -32,7 +38,10 @@ export const ContactForm = ({ onSubmitFormData }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmitFormData(name, number);
+
+    // Викликаємо генератор екшену та передаємо текст завдання для поля payload
+    // Відправляємо результат – екшен створення завдання
+    dispatch(addContact(name, number));
     reset();
   };
 

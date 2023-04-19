@@ -15,22 +15,41 @@ export const App = () => {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]);
   const [filterValue, setFilterValue] = useState('');
-  const isFirstRender = useRef(true);
 
-  useEffect(() => {
-    const savedContacts = load('contacts');
-    if (savedContacts) {
-      setContacts(savedContacts);
-    }
-  }, []);
+  //--REDUX
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    save('contacts', contacts);
-  }, [contacts]);
+  const appState = {
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: {
+      filterValue: '',
+    },
+  };
+
+  ///---------------
+
+  //-----LOCAL STORAGE
+  // const isFirstRender = useRef(true);
+
+  // useEffect(() => {
+  //   const savedContacts = load('contacts');
+  //   if (savedContacts) {
+  //     setContacts(savedContacts);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     isFirstRender.current = false;
+  //     return;
+  //   }
+  //   save('contacts', contacts);
+  // }, [contacts]);
+  //-------------------------------
 
   const checkName = name => {
     const normalizedName = name.toLowerCase();
