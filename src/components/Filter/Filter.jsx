@@ -6,7 +6,7 @@ import {
 } from 'components/Filter/Filter.styled';
 
 import { useDispatch } from 'react-redux';
-import { changeFilter } from '../../redux/actions';
+import { changeFilter } from '../../redux/filterSlice';
 
 export const Filter = () => {
   const filterInputId = nanoid();
