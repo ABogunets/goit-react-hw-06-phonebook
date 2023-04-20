@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import {
   FilterWrapper,
@@ -6,22 +5,27 @@ import {
   FilterInput,
 } from 'components/Filter/Filter.styled';
 
-export const Filter = ({ value, onChangeFilter }) => {
+import { useDispatch } from 'react-redux';
+import { changeFilter } from '../../redux/actions';
+
+export const Filter = () => {
   const filterInputId = nanoid();
+
+  const dispatch = useDispatch();
+
+  const onChangeFilter = e => {
+    dispatch(changeFilter(e.currentTarget.value));
+  };
+
   return (
     <FilterWrapper>
       <FilterLabel htmlFor={filterInputId}>Find contacts by name</FilterLabel>
       <FilterInput
         type="text"
         id={filterInputId}
-        value={value}
+        // value={filter}
         onChange={onChangeFilter}
       />
     </FilterWrapper>
   );
-};
-
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChangeFilter: PropTypes.func,
 };

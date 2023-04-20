@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import {
@@ -10,17 +9,16 @@ import {
   SubmitBtn,
 } from 'components/ContactForm/ContactForm.styled';
 
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contacts/actions';
+import { addContact } from '../../redux/actions';
+import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const nameInputId = nanoid();
   const numberInputId = nanoid();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  // Отримуємо посилання на функцію відправки екшенів
-  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -36,12 +34,26 @@ export const ContactForm = () => {
     }
   };
 
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  const checkName = name => {
+    const normalizedName = name.toLowerCase();
+    const foundName = contacts.find(
+      contact => contact.name.toLowerCase() === normalizedName
+    );
+    if (foundName) {
+      alert(`${name} is already in contacts.`);
+      return true;
+    }
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
 
-    // Викликаємо генератор екшену та передаємо текст завдання для поля payload
-    // Відправляємо результат – екшен створення завдання
-    dispatch(addContact(name, number));
+    if (!checkName(name)) {
+      dispatch(addContact(name, number));
+    }
     reset();
   };
 
@@ -77,8 +89,4 @@ export const ContactForm = () => {
       <SubmitBtn type="submit">Add contact</SubmitBtn>
     </FormWrapper>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmitFormData: PropTypes.func,
 };

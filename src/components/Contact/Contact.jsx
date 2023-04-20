@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import { ContactData, BtnDelete } from 'components/Contact/Contact.styled';
 
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contacts/actions';
+import { deleteContact } from '../../redux/actions';
 
 export const Contact = ({ contact }) => {
   const { id, name, number } = contact;
+
   const dispatch = useDispatch();
   const onDeleteContact = () => dispatch(deleteContact(id));
+
   return (
     <>
       <ContactData>
