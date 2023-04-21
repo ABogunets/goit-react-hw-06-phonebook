@@ -7,20 +7,12 @@ import {
 import { Contact } from 'components/Contact/Contact';
 import { getContacts } from 'redux/selectors';
 import { getFilter } from 'redux/selectors';
+import { getFilteredContacts } from 'service-functions';
 
 export const ContactList = () => {
-  // Отримуємо масив контактів та стан фильтру із стану Redux
   const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
-
-  const getFilteredContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-  const filteredContacts = getFilteredContacts();
-
+  const filterValue = useSelector(getFilter);
+  const filteredContacts = getFilteredContacts(filterValue, contacts);
   return (
     <ContactsWrapper>
       <ContactsList>

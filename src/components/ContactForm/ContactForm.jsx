@@ -13,8 +13,10 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
 import { getContacts } from 'redux/selectors';
+import { checkName } from 'service-functions';
 
 export const ContactForm = () => {
+  // ----controlled form
   const nameInputId = nanoid();
   const numberInputId = nanoid();
   const [name, setName] = useState('');
@@ -33,25 +35,15 @@ export const ContactForm = () => {
         return;
     }
   };
-
+  // ----
+  // ----form submit
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
-
-  const checkName = name => {
-    const normalizedName = name.toLowerCase();
-    const foundName = contacts.find(
-      contact => contact.name.toLowerCase() === normalizedName
-    );
-    if (foundName) {
-      alert(`${name} is already in contacts.`);
-      return true;
-    }
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!checkName(name)) {
+    if (!checkName(name, contacts)) {
       dispatch(addContact(name, number));
     }
     reset();
@@ -61,6 +53,7 @@ export const ContactForm = () => {
     setName('');
     setNumber('');
   };
+  // ----
 
   return (
     <FormWrapper onSubmit={handleSubmit}>

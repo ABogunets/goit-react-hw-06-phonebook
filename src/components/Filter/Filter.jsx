@@ -7,10 +7,13 @@ import {
 
 import { useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/filterSlice';
+import { useSelector } from 'react-redux';
+import { getFilter } from 'redux/selectors';
 
 export const Filter = () => {
   const filterInputId = nanoid();
 
+  const filterValue = useSelector(getFilter);
   const dispatch = useDispatch();
 
   const onChangeFilter = e => {
@@ -23,7 +26,7 @@ export const Filter = () => {
       <FilterInput
         type="text"
         id={filterInputId}
-        // value={filter}
+        value={filterValue}
         onChange={onChangeFilter}
       />
     </FilterWrapper>
